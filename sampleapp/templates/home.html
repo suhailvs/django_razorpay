@@ -3,23 +3,40 @@
     <meta charset="utf-8">
 </head>
 <body>
-    {{order_id}}
+    <p>Order: {{order_id}}. Refresh page to create new order</p>
+
     <form action="." method="POST">{% csrf_token %}
         <script
             src="https://checkout.razorpay.com/v1/checkout.js"
             data-key="{{razorpayid}}"
             data-amount="{{amount}}"
-            data-name="Daft Punk"
-            data-description="Purchase Description"
-            data-image="vk.jpg"
-            data-description="Tron Legacy"
-            data-prefill.name="Harshil Mathur"
-            data-prefill.email="harshil@razorpay.com"
-            data-prefill.contact="9999999999"
             data-order_id="{{order_id}}"
-            data-notes.shopping_order_id="21">
+            data-name="Book"
+            data-description="Narnia: The Last Battle"
+            data-image="http://lorempixel.com/200/200/"
+            data-prefill.name="Suhail VS"
+            data-prefill.email="suhailvs@gmail.com"
+            data-prefill.contact="7356775981">
         </script>
         <input type="hidden" name="shopping_order_id" value="21">
     </form>
+    <table border="1|0">
+        <tr>
+            <td>Razorpay OrderID</td>
+            <td>Razorpay PaymentID</td>
+            <td>Razorpay Signature</td>
+            <td>Amount</td>
+            <td>Status</td>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{order.razorpay_order_id}}</td>
+            <td>{{order.razorpay_payment_id}}</td>
+            <td>{{order.razorpay_signature}}</td>
+            <td>{{order.amount}}</td>
+            <td>{{order.is_paid}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
